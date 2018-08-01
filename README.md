@@ -2,6 +2,9 @@
 Universidad del Valle de Guatemala
 Sistemas Operativos, S.10 2018 - Laboratorio 3
 
+## Codigo de C
+En la carpeta ```/code```.
+
 ## Respuestas
 
 ### Ejercicio 1
@@ -74,6 +77,3 @@ Sistemas Operativos, S.10 2018 - Laboratorio 3
 ![11](https://github.com/gbrolo/SISTOS-L3/blob/master/img/11.PNG)
 ![12](https://github.com/gbrolo/SISTOS-L3/blob/master/img/12.PNG)
 ![13](https://github.com/gbrolo/SISTOS-L3/blob/master/img/13.PNG)
-
-#### Archivos de C
-* [Ejercicio H](./ejercicio3h.c)
