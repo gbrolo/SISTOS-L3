@@ -37,10 +37,43 @@ Sistemas Operativos, S.10 2018 - Laboratorio 3
 
 ### Ejercicio 4
 
+1. ¿Qué significa la Z, y a qué se debe? Esa Z corresponde a la columna de estado del proceso y significa que el proceso es un proceso zombie.
 
+2. ¿Qué sucede en la ventana donde ejecutó su programa? Se para la ejecucion del programa.
+
+3. ¿Quién es el padre del proceso que quedó huérfano? No tiene padre. El proceso se queda como ```<defunct>``` con el flag Z.
+
+### Ejercicio 5
+
+1. ¿Qué diferencia hay en realizar comunicación usando memoria compartida en lugar de usando un archivo común y corriente? En el modelo de memoria compartida, multiples workers operan bajo los mismos datos. De la otra forma, se obliga a que los workers se comuniquen a traves de otros sistemas, como mensajeria y archivos. Esto mantiene a todos separados, para que asi ningun trabajador pueda modificar los datos de otro. 
+
+2. ¿Por qué no se debe usar el file descriptor de memoria compartida recibido de otra instancia para realizar el mmap? Porque cuando se utiliza un archivo mappeado compartido, los cambios iniciados por un solo proceso o por varios procesos se reflejan de nuevo al archivo original, entonces podría ocurrir que el mappeo arruine la ejecucion del proceso padre al compartirle al otro proceso las mismas localidades de memoria sobre las que se encuentra trabajando. 
+
+3. ¿Es posible enviar el output de un programa ejecutado con exec a otro proceso por medio de un pipe? Investigue y explique cómo funciona esto en la terminal (e.g., ls | less). Se tendría que crear un pipe desde el proceso padre hacia el hijo y luego redirigir el standard output y el error output usando ```dup``` o ```dup2``` hacia el pipe, lo que hara que el proceso padre lea desde el pipe. 
+
+4. ¿Cómo puede asegurarse de que ya se ha abierto un espacio de memoria compartida con un nombre determinado? Investigue y explique errno. ¿Qué pasa si se ejecuta shm_unlink cuando hay procesos que todavía están usando la memoria compartida? Pueden usarse los comandos ```ipcs -m```, ```ipcs -pm```. Errno corresponde a los errores del sistema, a los que comunmente se les asocia un numero de error. Puede ejecutarse ```shm_unlink``` pero los datos del archivo permaneceran hasta que el nombre desaparezca y el ultimo proceso que lo este usando deje de utilizarlo. 
+
+5. ¿Cómo puede referirse al contenido de un espacio en memoria al que apunta un puntero? Observe que su programa deberá tener alguna forma de saber hasta dónde ha escrito su otra instancia en la memoria compartida para no sobre escribirle. El puntero no es suficiente por si solo, se necesitaria saber a que proceso pertenece el puntero, por esto se necesitaria obtener el pid del programa que usa el espacio. 
+
+6. Imagine que una ejecución de su programa sufre un error que termina la ejecución prematuramente, dejando el espacio de memoria compartido abierto y provocando que nuevas ejecuciones se queden esperando el file descriptor del espacio de memoria compartida. ¿Cómo puede liberar el espacio de memoria compartida “manualmente”? Primero podria verse la memoria compartida con ```ipcs``` y luego de identificar el segmento, se podria borrar con ```ìpcrm```. 
+
+7. Observe que el programa que ejecute dos instancias de ipc.c debe cuidar que una instancia no termine mucho antes que la otra para evitar que ambas instancias abran y cierren su propio espacio de memoria compartida. ¿Aproximadamente cuánto tiempo toma la realización de un fork()? Investigue y aplique usleep. El tiempo de un fork puede variar dependiendo del tamanio del espacio virtual de direcciones, pero por lo general, un fork es rapido y toma tiempos con orden de microsegundos. 
 
 #### Screenshot de la llamada
-![alt text](https://github.com/gbrolo/SISTOS-L1/blob/master/3h.PNG)
+### Screenshots
+![1](https://github.com/gbrolo/SISTOS-L3/blob/master/img/1.PNG)
+![2](https://github.com/gbrolo/SISTOS-L3/blob/master/img/2.PNG)
+![3](https://github.com/gbrolo/SISTOS-L3/blob/master/img/3.PNG)
+![4](https://github.com/gbrolo/SISTOS-L3/blob/master/img/4.PNG)
+![5](https://github.com/gbrolo/SISTOS-L3/blob/master/img/5.PNG)
+![6](https://github.com/gbrolo/SISTOS-L3/blob/master/img/6.PNG)
+![7](https://github.com/gbrolo/SISTOS-L3/blob/master/img/7.PNG)
+![8](https://github.com/gbrolo/SISTOS-L3/blob/master/img/8.PNG)
+![9](https://github.com/gbrolo/SISTOS-L3/blob/master/img/9.PNG)
+![10](https://github.com/gbrolo/SISTOS-L3/blob/master/img/10.PNG)
+![11](https://github.com/gbrolo/SISTOS-L3/blob/master/img/11.PNG)
+![12](https://github.com/gbrolo/SISTOS-L3/blob/master/img/12.PNG)
+![13](https://github.com/gbrolo/SISTOS-L3/blob/master/img/13.PNG)
 
 #### Archivos de C
 * [Ejercicio H](./ejercicio3h.c)
